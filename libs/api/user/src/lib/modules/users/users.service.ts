@@ -27,13 +27,14 @@ export class UsersService {
     return this.repository.findOne(id);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    const user = this.repository.findOne(id);
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    const user = await this.repository.findOne(id);
     wrap(user).assign(updateUserDto);
     return this.repository.persistAndFlush(user);
   }
 
   remove(id: number) {
-    return this.repository.remove({id: id})
+    const user = this.repository.getReference(id);
+    return this.repository.removeAndFlush(user)
   }
 }
