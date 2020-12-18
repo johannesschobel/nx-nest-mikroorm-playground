@@ -1,0 +1,48 @@
+version: '3.7'
+
+networks:
+  home:
+
+services:
+  api:
+    container_name: api
+    image: node:lts-alpine3.11
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: npm run start nest-api
+    depends_on:
+      - db
+    ports:
+      - 3333:3333
+    networks:
+      - home
+
+  db:
+    image: postgres:12
+    container_name: db
+    ports:
+      - 5432:5432
+    networks:
+      - home
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  pgadmin:
+    image: dpage/pgadmin4:4.28
+    container_name: pgadmin
+    networks:
+      - home
+    depends_on:
+      - db
+    ports:
+      - 5555:5555
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'admin@local.host'
+      PGADMIN_DEFAULT_PASSWORD: 'password'
+      PGADMIN_LISTEN_PORT: 5555
+
+
+
