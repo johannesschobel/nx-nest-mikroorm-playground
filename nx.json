@@ -25,6 +25,12 @@
   "projects": {
     "nest-api": {
       "tags": []
+    },
+    "api-data": {
+      "tags": []
+    },
+    "api-user": {
+      "tags": []
     }
   }
 }
